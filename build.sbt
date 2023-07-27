@@ -16,5 +16,5 @@ libraryDependencies += "org.xerial" % "sqlite-jdbc" % "3.36.0.3"
 
 lazy val root = (project in file("."))
   .settings(
-    name := "Pipeline Project"
+    name := "Pipeline_Project"
   )
