@@ -9,11 +9,10 @@ libraryDependencies += "commons-io" % "commons-io" % "2.7"
 // https://mvnrepository.com/artifact/org.slf4j/slf4j-api
 libraryDependencies += "org.slf4j" % "slf4j-api" % "1.7.2"
 // https://mvnrepository.com/artifact/org.apache.spark/spark-sql
-libraryDependencies += "org.apache.spark" %% "spark-sql" % "2.4.3"
+libraryDependencies += "org.apache.spark" %% "spark-sql" % "2.4.3" exclude ("org.apache.hadoop", "hadoop-client")
 // https://mvnrepository.com/artifact/org.xerial/sqlite-jdbc
 libraryDependencies += "org.xerial" % "sqlite-jdbc" % "3.36.0.3"
-// https://mvnrepository.com/artifact/org.apache.hadoop/hadoop-client
-libraryDependencies += "org.apache.hadoop" % "hadoop-client" % "2.7.1"
+
 
 
 
