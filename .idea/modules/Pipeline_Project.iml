@@ -40,7 +40,7 @@
     <orderEntry type="library" name="sbt: commons-configuration:commons-configuration:1.6:jar" level="project" />
     <orderEntry type="library" name="sbt: commons-digester:commons-digester:1.8:jar" level="project" />
     <orderEntry type="library" name="sbt: commons-httpclient:commons-httpclient:3.1:jar" level="project" />
-    <orderEntry type="library" name="sbt: commons-io:commons-io:2.6:jar" level="project" />
+    <orderEntry type="library" name="sbt: commons-io:commons-io:2.7:jar" level="project" />
     <orderEntry type="library" name="sbt: commons-lang:commons-lang:2.6:jar" level="project" />
     <orderEntry type="library" name="sbt: commons-net:commons-net:3.1:jar" level="project" />
     <orderEntry type="library" name="sbt: io.airlift:aircompressor:0.10:jar" level="project" />
