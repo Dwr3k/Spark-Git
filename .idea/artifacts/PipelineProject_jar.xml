@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
-  <artifact name="Pipeline Project:jar">
-    <output-path>$PROJECT_DIR$/out/artifacts/Pipeline_Project_jar</output-path>
+  <artifact name="PipelineProject:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/PipelineProject_jar</output-path>
     <root id="root">
       <element id="archive" name="Pipeline Project.jar">
         <element id="module-output" name="Pipeline Project" />
