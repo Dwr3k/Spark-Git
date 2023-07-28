@@ -5,9 +5,9 @@ import org.apache.spark.sql.SparkSession
 object Melee{
 
   def main(args:Array[String]):Unit = {
-    //val url = s"jdbc:sqlite:${args(0)}"
-    val url = args(0)
-    //val url = "jdbc:sqlite:C:\\Users\\Consultant\\Desktop\\melee_player_database.db"
+    val url = s"jdbc:sqlite:${args(0)}"
+    //val url = args(0)
+//    val url = "jdbc:sqlite:C:\\Users\\Consultant\\Desktop\\melee_player_database.db"
     //  System.setProperty("hadoop.home.dir", "C:\\Users\\Consultant\\Documents\\hadoop-2.8.1\\hadoop-2.8.1")
 
     Logger.getLogger("org").setLevel(Level.ERROR)
@@ -15,7 +15,7 @@ object Melee{
 
     val sparkConf = new SparkConf()
 
-    //  sparkConf.set("spark.master", "local")
+    sparkConf.set("spark.master", "local")
     sparkConf.set("spark.app.name", "Melee Pipeline")
     sparkConf.set("spark.jars.packages", "org.xerial:sqlite-jdbc:3.36.0.3")
 
