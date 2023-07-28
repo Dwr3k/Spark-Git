@@ -20,7 +20,7 @@ object Melee{
 
     val spark = SparkSession.builder().master("local").config(sparkConf).getOrCreate()
 
-    val meleeSets = spark.read.format("jdbc").options(Map("driver" -> "org.sqlite.JDBC", "url" -> url, "dbtable" -> "sets")).load()
+    val meleeSets = spark.read.format("jdbc").options(Map("driver" -> "org.sqlite.JDBC", "url" -> args(0), "dbtable" -> "sets")).load()
     val meleePlayers = spark.read.format("jdbc").options(Map("url" -> url, "dbtable" -> "players")).load()
 
 
