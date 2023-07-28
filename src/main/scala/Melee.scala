@@ -5,8 +5,8 @@ import org.apache.spark.sql.SparkSession
 object Melee{
 
   def main(args:Array[String]):Unit = {
-    val url = s"jdbc:sqlite:${args(0)}"
-    //val url = args(0)
+    //val url = s"jdbc:sqlite:${args(0)}"
+    val url = args(0)
 //    val url = "jdbc:sqlite:C:\\Users\\Consultant\\Desktop\\melee_player_database.db"
     //  System.setProperty("hadoop.home.dir", "C:\\Users\\Consultant\\Documents\\hadoop-2.8.1\\hadoop-2.8.1")
 
@@ -21,7 +21,7 @@ object Melee{
 
     val spark = SparkSession.builder().master("local").config(sparkConf).getOrCreate()
 
-    val meleeSets = spark.read.format("jdbc").options(Map("driver" -> "org.sqlite.JDBC", "url" -> url.trim(), "dbtable" -> "players")).load()
+    val meleeSets = spark.read.format("jdbc").options(Map("driver" -> "org.sqlite.JDBC", "url" -> url.trim(), "dbtable" -> "(select * from players)")).load()
     val meleePlayers = spark.read.format("jdbc").options(Map("driver" -> "org.sqlite.JDBC", "url" -> url.trim(), "dbtable" -> "players")).load()
 
 
