@@ -37,6 +37,16 @@ object Melee{
 //    newPlayers.printSchema()
 //    newTournamentInfo.printSchema()
 
+    if (args.length == 3) {
+      println("OUTPATH ARGUMENT FOUND: ")
+      val outpath: String = args(2)
+      print(s"outpath is $outpath")
+
+      newPlayers.repartition(1).write.mode(SaveMode.Overwrite).csv(s"$outpath/players")
+      sets.repartition(1).write.mode(SaveMode.Overwrite).csv(s"$outpath/sets")
+      tournamentInfo.repartition(1).write.mode(SaveMode.Overwrite).csv(s"$outpath/tournament_info")
+    }
+
 
     players.createTempView("players")
     sets.createTempView("sets")
@@ -46,15 +56,7 @@ object Melee{
     sets.repartition(1).write.mode(SaveMode.Overwrite).saveAsTable("drem_sets")
     newTournamentInfo.repartition(1).write.mode(SaveMode.Overwrite).saveAsTable("drem_tournament_info")
 
-    if (args.length == 3) {
 
-      val outpath: String = args(2)
-      println(s"outpath is $outpath")
-
-      newPlayers.repartition(1).write.mode(SaveMode.Overwrite).csv(s"$outpath/players")
-      sets.repartition(1).write.mode(SaveMode.Overwrite).csv(s"$outpath/sets")
-      tournamentInfo.repartition(1).write.mode(SaveMode.Overwrite).csv(s"$outpath/tournament_info")
-    }
 
 //
 //    val gf1 = spark.sql("Select p1.tag, p2.tag, count(*) as times_won " +
