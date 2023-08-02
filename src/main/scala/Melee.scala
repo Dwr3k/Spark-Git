@@ -21,6 +21,8 @@ object Melee{
     val username: String = args(0)
     val password: String = args(1)
 
+
+
     val players = spark.read.format("jdbc").options(Map("driver" -> "org.postgresql.Driver", "fetchsize" -> "10000","url" -> url.trim(), "dbtable" -> "players", "user" -> username, "password" -> password)).load()
     val sets = spark.read.format("jdbc").options(Map("driver" -> "org.postgresql.Driver", "fetchsize" -> "10000", "url" -> url.trim(), "dbtable" -> "sets", "user" -> username, "password" -> password)).load()
     val tournamentInfo = spark.read.format("jdbc").options(Map("driver" -> "org.postgresql.Driver","fetchsize" -> "10000", "url" -> url.trim(), "dbtable" -> "tournament_info", "user" -> username, "password" -> password)).load()
@@ -40,8 +42,17 @@ object Melee{
     sets.createTempView("sets")
     tournamentInfo.createTempView("tournament_info")
 
-    newTournamentInfo.repartition(1).write.mode(SaveMode.Overwrite).saveAsTable("Drem_Test")
+    newPlayers.repartition(1).write.mode(SaveMode.Overwrite).saveAsTable("drem_players")
+    sets.repartition(1).write.mode(SaveMode.Overwrite).saveAsTable("drem_sets")
+    newTournamentInfo.repartition(1).write.mode(SaveMode.Overwrite).saveAsTable("drem_tournament_info")
 
+    if (args.length == 3) {
+      val outpath: String = args(2)
+
+      newPlayers.repartition(1).write.csv(outpath)
+      sets.repartition(1).write.csv(outpath)
+      tournamentInfo.repartition(1).write.csv(outpath)
+    }
 
 //
 //    val gf1 = spark.sql("Select p1.tag, p2.tag, count(*) as times_won " +
@@ -63,32 +74,5 @@ object Melee{
 //    val gf3 = spark.sql("select state, count(state) as tourneys_held from tournament_info where online == 0 group by state order by tourneys_held desc")
 //    gf3.show()
 
-
-
-
-
-
-
-
-
-
-////    val allDataDF = spark.read.option("header", true).option("delimiter", ";").csv(args(1))
-//
-//    val allData = spark.read.format("jdbc").options(Map("driver" -> "org.postgresql.jdbc", "url" -> url, "dbtable" -> "drem_horses", "usermame" -> args(1), "password" -> args(2))).load()
-//
-//    //select jockey, horseid, count(jockey) as num_races, round(avg("Final place")) average_finish from drem_horses group by jockey,horseid order by num_races desc, average_finish asc ;
-//    allData.show()
-
-
-
-
-
-
-
-    //    val meleePlayers = spark.read.format("jdbc").options(Map("url" -> url, "dbtable" -> "players")).load()
-//    val meleeSets = spark.read.format("jdbc").options(Map("url" -> url, "dbtable" -> "sets")).load()
-
-//    val rdd1 = meleePlayers.select("player_id", "state", "country").join(meleeSets.select("winner_id", "p1_id", "p2_id"), meleePlayers("player_id") === meleeSets("winner_id"), "inner")
-//    rdd1.show()
   }
 }
