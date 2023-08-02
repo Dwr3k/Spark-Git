@@ -1,6 +1,6 @@
 import org.apache.log4j.{Level, Logger}
 import org.apache.spark.SparkConf
-import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.{SaveMode, SparkSession}
 import org.apache.spark.sql.functions.count
 object Melee{
 
@@ -14,9 +14,9 @@ object Melee{
 
     val sparkConf = new SparkConf()
 
-    sparkConf.set("spark.master", "local")
+    //sparkConf.set("spark.master", "local")
     sparkConf.set("spark.app.name", "Melee Pipeline")
-    val spark = SparkSession.builder().config(sparkConf).getOrCreate()
+    val spark = SparkSession.builder().config(sparkConf).enableHiveSupport().getOrCreate()
 
     val username: String = args(0)
     val password: String = args(1)
@@ -25,14 +25,24 @@ object Melee{
     val sets = spark.read.format("jdbc").options(Map("driver" -> "org.postgresql.Driver", "fetchsize" -> "10000", "url" -> url.trim(), "dbtable" -> "sets", "user" -> username, "password" -> password)).load()
     val tournamentInfo = spark.read.format("jdbc").options(Map("driver" -> "org.postgresql.Driver","fetchsize" -> "10000", "url" -> url.trim(), "dbtable" -> "tournament_info", "user" -> username, "password" -> password)).load()
 
-    players.show()
-    sets.show()
-    tournamentInfo.show()
+//    players.printSchema()
+//    sets.printSchema()
+//    tournamentInfo.printSchema()
+
+    val newPlayers = players.selectExpr("player_id", "tag", "all_tags", "country", "state", "region", "c_country", "c_state", "c_region", "characters")
+    val newTournamentInfo = tournamentInfo.drop("game", "rank", "lat", "lng")
+
+//    newPlayers.printSchema()
+//    newTournamentInfo.printSchema()
 
 
-//    players.createTempView("players")
-//    sets.createTempView("sets")
-//    tournamentInfo.createTempView("tournament_info")
+    players.createTempView("players")
+    sets.createTempView("sets")
+    tournamentInfo.createTempView("tournament_info")
+
+    newTournamentInfo.repartition(1).write.mode(SaveMode.Overwrite).saveAsTable("Drem_Test")
+
+
 //
 //    val gf1 = spark.sql("Select p1.tag, p2.tag, count(*) as times_won " +
 //      "from sets s join players w on s.winner_id = w.player_id " +
